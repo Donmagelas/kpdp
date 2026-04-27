@@ -2,7 +2,7 @@
   + Caffeine 本地缓存
   + 本地 BloomFilter
   + Redis 滑动窗口限流
-  + P95 动态降级
+  + Micrometer埋点 P95 动态降级
   + RocketMQ 异步消费
   + Outbox 本地消息表
   + Redis ZSet 驱动 Outbox 投递
