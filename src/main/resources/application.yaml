@@ -42,11 +42,11 @@ management:
   metrics:
     distribution:
       percentiles-histogram:
-        http.server.requests: true
+        "[http.server.requests]": true
       expiry:
-        http.server.requests: 10s
+        "[http.server.requests]": 10s
       buffer-length:
-        http.server.requests: 1
+        "[http.server.requests]": 1
   simple:
     metrics:
       export:

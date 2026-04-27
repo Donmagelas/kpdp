@@ -134,8 +134,8 @@ public class RateLimitAspect {
     /**
      * 构造 Redis 限流 key。
      *
-     * @param rateLimiter 限流规则
-     * @param method 当前方法
+     * @param businessKey 业务限流 key
+     * @param type 限流维度类型
      * @param identifier 维度标识
      * @return Redis key
      */
