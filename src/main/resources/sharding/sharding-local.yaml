@@ -1,0 +1,102 @@
+databaseName: kpdp_seckill_sharding
+
+mode:
+  # 避开默认 Standalone 持久化写回，减少与 SnakeYAML 版本的耦合。
+  type: Memory
+
+dataSources:
+  ds_0:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/kpdp_shard_0?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: yangbo
+    maximumPoolSize: 10
+    minimumIdle: 1
+  ds_1:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/kpdp_shard_1?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: yangbo
+    maximumPoolSize: 10
+    minimumIdle: 1
+  ds_2:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/kpdp_shard_2?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: yangbo
+    maximumPoolSize: 10
+    minimumIdle: 1
+  ds_3:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/kpdp_shard_3?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: yangbo
+    maximumPoolSize: 10
+    minimumIdle: 1
+
+rules:
+  - !SHARDING
+    tables:
+      tb_user:
+        # 用户表按用户 ID 哈希后映射到 4 个库、每库 2 张表。
+        actualDataNodes: ds_${0..3}.tb_user_${0..1}
+        databaseStrategy:
+          standard:
+            shardingColumn: id
+            shardingAlgorithmName: user-id-database-hash-slot
+        tableStrategy:
+          standard:
+            shardingColumn: id
+            shardingAlgorithmName: user-id-table-hash-slot
+      tb_voucher_order:
+        # 订单表按 user_id 哈希后映射到 4 个库、每库 2 张表。
+        actualDataNodes: ds_${0..3}.tb_voucher_order_${0..1}
+        databaseStrategy:
+          standard:
+            shardingColumn: user_id
+            shardingAlgorithmName: user-id-database-hash-slot
+        tableStrategy:
+          standard:
+            shardingColumn: user_id
+            shardingAlgorithmName: user-id-table-hash-slot
+      tb_order_outbox:
+        # Outbox 表和订单表保持同一套按 user_id 的分片规则，便于一起路由和定位。
+        actualDataNodes: ds_${0..3}.tb_order_outbox_${0..1}
+        databaseStrategy:
+          standard:
+            shardingColumn: user_id
+            shardingAlgorithmName: user-id-database-hash-slot
+        tableStrategy:
+          standard:
+            shardingColumn: user_id
+            shardingAlgorithmName: user-id-table-hash-slot
+    bindingTables:
+      # 三张分片表都按用户 ID 走同一路由，后续若有关联查询可避免无意义的笛卡尔路由。
+      - tb_user,tb_voucher_order,tb_order_outbox
+    shardingAlgorithms:
+      user-id-database-hash-slot:
+        type: CLASS_BASED
+        props:
+          strategy: STANDARD
+          algorithmClassName: com.kpdp.sharding.HashSlotShardingAlgorithm
+          total-sharding-count: 8
+          table-sharding-count-per-database: 2
+          route-type: DATABASE
+      user-id-table-hash-slot:
+        type: CLASS_BASED
+        props:
+          strategy: STANDARD
+          algorithmClassName: com.kpdp.sharding.HashSlotShardingAlgorithm
+          total-sharding-count: 8
+          table-sharding-count-per-database: 2
+          route-type: TABLE
+  - !BROADCAST
+    tables:
+      # 秒杀券主数据在 4 个分库里保持全量副本，查询时按广播表规则路由。
+      - tb_seckill_voucher
+props:
+  sql-show: true

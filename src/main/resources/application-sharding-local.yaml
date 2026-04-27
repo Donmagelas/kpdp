@@ -1,0 +1,29 @@
+spring:
+  config:
+    activate:
+      on-profile: sharding-local
+  datasource:
+    # 本地分库分表模式走 ShardingSphere JDBC Driver。
+    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    url: jdbc:shardingsphere:classpath:sharding/sharding-local.yaml
+    username:
+    password:
+  data:
+    redis:
+      # 本地 Redis 仍然复用现有连接信息。
+      host: 127.0.0.1
+      port: 6379
+      password: 123456
+
+rocketmq:
+  # 本地 RocketMQ 默认走 nameserver 9876 端口。
+  name-server: ${ROCKETMQ_NAMESERVER:127.0.0.1:9876}
+  producer:
+    group: ${ROCKETMQ_PRODUCER_GROUP:kpdp-seckill-producer}
+
+kpdp:
+  rocketmq:
+    seckill-order-topic: ${SECKILL_ORDER_TOPIC:seckill-order-topic}
+    seckill-order-consumer-group: ${SECKILL_ORDER_CONSUMER_GROUP:kpdp-seckill-order-consumer}
+    seckill-order-dlq-topic: ${SECKILL_ORDER_DLQ_TOPIC:%DLQ%kpdp-seckill-order-consumer}
+    seckill-order-dlq-sync-consumer-group: ${SECKILL_ORDER_DLQ_SYNC_CONSUMER_GROUP:kpdp-seckill-order-dlq-sync-consumer}

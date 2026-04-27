@@ -1,0 +1,142 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+# =========================
+# Maven / Java build output
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# 本项目里的本地 Maven 仓库
+.m2repo/
+
+# =========================
+# IDE files
+# =========================
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Eclipse / STS
+.project
+.classpath
+.settings/
+.springBeans
+.sts4-cache/
+
+# VS Code
+.vscode/
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+log/
+
+# =========================
+# Temporary files
+# =========================
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+*.swo
+
+tmp-spring-meta/
+tmp-start-*.cmd
+tmp-voucher-body.json
+
+# =========================
+# Local ops / agent files
+# =========================
+# Ignore only local README under canal cache ops
+ops/canal/kpdp-cache/README.md
+AGENTS.md
+
+# =========================
+# RocketMQ local runtime
+# =========================
+rocketmq-runtime/
+rocketmq-broker-local.conf
+
+# =========================
+# Local environment / secrets
+# =========================
+.env
+.env.*
+!.env.example
+application-local.yml
+application-local.yaml
+application-dev-local.yml
+application-dev-local.yaml
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Archives / generated packages
+# =========================
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+kpdp.zip
+
+# =========================
+# Test / report output
+# =========================
+surefire-reports/
+failsafe-reports/
+jmeter.log
+*.jtl
+perf/jmeter/results/
+perf/jmeter/reports/
+
+# Windows local scripts
+*.cmd
+
+# Local config files
+*.conf
