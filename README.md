@@ -1,3 +1,18 @@
+<div align="center">
+  <h1>靠谱点评 - 核心秒杀链路强化</h1>
+
+  <p>
+    <img src="https://img.shields.io/badge/Spring%20Boot-3.3.0-6DB33F" alt="Spring Boot">
+    <img src="https://img.shields.io/badge/RocketMQ-5.3.2-D77310" alt="RocketMQ">
+    <img src="https://img.shields.io/badge/Redis-7.2-DC382D" alt="Redis">
+    <img src="https://img.shields.io/badge/Caffeine-3.1.8-FF8C42" alt="Caffeine">
+    <img src="https://img.shields.io/badge/MySQL-8.0.31-4479A1" alt="MySQL">
+    <img src="https://img.shields.io/badge/Canal-1.1.8-0E8A9C" alt="Canal">
+  </p>
+</div>
+
+<br/>
+
 仅上传核心秒杀模块强化内容
   + Caffeine 本地缓存
   + 本地 BloomFilter
